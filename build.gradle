@@ -3,7 +3,7 @@ apply plugin: UploadPlugin
 
 
 ext {
-    _artifact = "uploader"
+    _artifact = "RepoUploader"
     _group = "pers.nelon.uploader"
     _version = "0.0.1"
     _repositoryUrl = "http://www.rockspur.com/repository/nelon-release/"
