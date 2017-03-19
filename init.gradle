@@ -1,0 +1,47 @@
+apply plugin: "groovy"
+
+defaultTasks 'clean', 'jar'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "http://www.rockspur.com/repository/nelon/" }
+    }
+
+    dependencies {
+        classpath 'com.ppfuns.uploader:Uploader:0.0.1-SNAPSHOT'
+    }
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src/main/groovy', 'src/main/java']
+        }
+        java {
+            srcDirs = []
+        }
+    }
+}
+
+dependencies {
+    tasks.withType(Dependency) {
+        options.encoding = 'UTF-8'
+    }
+    compile gradleApi()
+    compile localGroovy()
+}
+
+tasks.create(name: 'sourcesJar', type: Jar, dependsOn: 'classes') {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+    sourceSets.main.allSource.each {
+        println it.toString()
+    }
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+println "init completed"

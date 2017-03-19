@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.nelon.nexusplugin", appContext.getPackageName());
+        assertEquals("com.example.nelon.plugin", appContext.getPackageName());
     }
 }
