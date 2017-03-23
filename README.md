@@ -1,5 +1,7 @@
 # RepoUploader
 
+[![](https://jitpack.io/v/nelon1990/RepoUploader.svg)](https://jitpack.io/#nelon1990/RepoUploader)
+
 An easy-use gradle plugin for uploading lib to repository
 
 #USEAGE
@@ -16,7 +18,7 @@ An easy-use gradle plugin for uploading lib to repository
         }
         dependencies {
             ....
-            classpath 'com.github.nelon1990:RepoUploader:v0.0.1'
+            classpath 'com.github.nelon1990:RepoUploader:0.0.2'
             ....
         }
     }

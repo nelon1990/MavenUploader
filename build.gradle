@@ -6,7 +6,7 @@ ext {
     _artifact = "RepoUploader"
     _group = "pers.nelon.uploader"
     _version = "0.0.1"
-    _repositoryUrl = "http://www.rockspur.com/repository/nelon-release/"
+    _repositoryUrl = "http://localhost:8081/repository/nelon-release/"
     _userName = "admin"
     _password = "admin123"
 }
