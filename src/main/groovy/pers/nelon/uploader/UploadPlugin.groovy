@@ -3,6 +3,7 @@ package pers.nelon.uploader
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import pers.nelon.uploader.task.MavenConfigTask
+import pers.nelon.uploader.UploaderConfigExtension
 
 public class UploadPlugin implements Plugin<Project> {
     private static final String MAVEN_CONFIG_TASK_NAME = "configMaven"
@@ -17,13 +18,15 @@ public class UploadPlugin implements Plugin<Project> {
             pProject.apply plugin: "maven"
         }
 
-        pProject.ext {
-            _artifact = pProject.name
-            _group = pProject.group
-            _version = pProject.version
-            _repositoryUrl = ""
-            _userName = ""
-            _password = ""
+        pProject.extensions.create("uploaderConfig", UploaderConfigExtension.class)
+
+        pProject.uploaderConfig {
+            artifact = pProject.name
+            group = pProject.group
+            version = pProject.version
+            repositoryUrl = ""
+            userName = ""
+            password = ""
         }
 
         pProject.project.getTasks().create(MAVEN_CONFIG_TASK_NAME, MavenConfigTask)

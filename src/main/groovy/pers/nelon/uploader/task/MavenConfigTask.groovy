@@ -11,21 +11,21 @@ public class MavenConfigTask extends AbstractConfigTask {
         project.tasks.findByName("uploadArchives").repositories {
             mavenDeployer {
                 println "------------------------------MAVEN POM START------------------------------"
-                println "_artifact :\t\t " + project._artifact
-                println "_group :\t\t " + project._group
-                println "_version :\t\t " + project._version
-                println "_repositoryUrl :\t " + project._repositoryUrl.replace("\t", "")
-                println "_userName :\t\t " + project._userName
-                println "_password :\t\t " + project._password
+                println "artifact :\t\t " + project.uploaderConfig.artifact
+                println "group :\t\t " + project.uploaderConfig.group
+                println "version :\t\t " + project.uploaderConfig.version
+                println "repositoryUrl :\t " + project.uploaderConfig.repositoryUrl.replace("\t", "")
+                println "userName :\t\t " + project.uploaderConfig.userName
+                println "password :\t\t " + project.uploaderConfig.password
                 println "-------------------------------MAVEN POM END-------------------------------"
 
-                repository(url: project._repositoryUrl) {
-                    authentication(userName: project._userName, password: project._password)
+                repository(url: project.uploaderConfig.repositoryUrl) {
+                    authentication(userName: project.uploaderConfig.userName, password: project.uploaderConfig.password)
                 }
                 pom {
-                    version = project._version
-                    groupId = project._group
-                    artifactId = project._artifact
+                    version = project.uploaderConfig.version
+                    groupId = project.uploaderConfig.group
+                    artifactId = project.uploaderConfig.artifact
                 }
             }
         }
