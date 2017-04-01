@@ -2,12 +2,6 @@ apply plugin: "groovy"
 
 defaultTasks 'clean', 'jar'
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
-
 sourceSets {
     main {
         groovy {

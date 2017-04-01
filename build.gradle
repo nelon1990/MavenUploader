@@ -1,5 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'http://192.168.1.12:8088/repository/ppfuns/' }
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath('pers.nelon.uploader:repoUploader:1.0.0-SNAPSHOT') {
+            changing = true
+        }
+    }
+}
+
 apply from: "init.gradle"
-apply plugin: UploadPlugin
+apply plugin: "repoUploader"
+//apply plugin: UploadPlugin
 
 
 uploaderConfig {
@@ -9,6 +23,9 @@ uploaderConfig {
     repositoryUrl = "http://192.168.1.12:8088/repository/ppfuns-release/"
     userName = "libingfeng"
     password = "123"
+    ext {
+        description = "这是一个描述"
+    }
 }
 
 class UploadPlugin implements Plugin<Project> {
@@ -48,47 +65,78 @@ class UploadPlugin implements Plugin<Project> {
 
 }
 
-public class MavenConfigTask extends DefaultTask {
+class MavenConfigTask extends DefaultTask {
     MavenConfigTask() {
         doLast {
             applyConfig()
         }
     }
 
-    public void applyConfig() {
-        project.tasks.findByName("uploadArchives").repositories {
+    void applyConfig() {
+        def uploadArchives = project.tasks.findByName("uploadArchives")
+        uploadArchives.repositories {
             mavenDeployer {
-                println "------------------------------MAVEN POM START------------------------------"
-                println "artifact :\t\t " + project.uploaderConfig.artifact
-                println "group :\t\t " + project.uploaderConfig.group
-                println "version :\t\t " + project.uploaderConfig.version
-                println "repositoryUrl :\t " + project.uploaderConfig.repositoryUrl.replace("\t", "")
-                println "userName :\t\t " + project.uploaderConfig.userName
-                println "password :\t\t " + project.uploaderConfig.password
-                println "-------------------------------MAVEN POM END-------------------------------"
-
                 repository(url: project.uploaderConfig.repositoryUrl) {
                     authentication(userName: project.uploaderConfig.userName, password: project.uploaderConfig.password)
                 }
-                pom {
-                    version = project.uploaderConfig.version
-                    groupId = project.uploaderConfig.group
-                    artifactId = project.uploaderConfig.artifact
+                pom { p ->
+                    p.version = project.uploaderConfig.version
+                    p.groupId = project.uploaderConfig.group
+                    p.artifactId = project.uploaderConfig.artifact
+
+                    Map<String, String> map = project.uploaderConfig.extMap
+                    Set<String> keySet = map.keySet()
+                    keySet.each { key ->
+                        p.withXml {
+                            asNode().appendNode(key, map.get(key))
+                        }
+                    }
+
                 }
+
+                println "------------------------------MAVEN POM START------------------------------"
+                println "artifact :\t\t ${project.uploaderConfig.artifact}"
+                println "group :\t\t ${project.uploaderConfig.group}"
+                println "version :\t\t ${project.uploaderConfig.version}"
+                println "repositoryUrl :\t\t ${project.uploaderConfig.repositoryUrl}"
+                println "userName :\t\t ${project.uploaderConfig.userName}"
+                println "password :\t\t ${project.uploaderConfig.password}"
+                println "ext :"
+                Map<String, String> map = project.uploaderConfig.extMap
+                Set<String> keySet = map.keySet()
+                keySet.each { key ->
+                    println "\t${key} : ${map.get(key)}"
+                }
+                println "-------------------------------MAVEN POM END-------------------------------"
             }
         }
     }
 
 }
 
-public class UploaderExtension {
-    String artifact;
-    String group;
-    String version;
-    String repositoryUrl;
-    String userName;
-    String password;
+class UploaderExtension {
+    String artifact
+    String group
+    String version
+    String repositoryUrl
+    String userName
+    String password
+    Map<String, String> extMap
+
+    UploaderExtension() {
+        artifact = ""
+        group = ""
+        version = ""
+        repositoryUrl = ""
+        userName = ""
+        password = ""
+        extMap = new HashMap<>()
+    }
+
+    void ext(Action<Map> pMapAction) {
+        pMapAction.execute(extMap)
+    }
 }
 
-public class UploadExecutor extends DefaultTask {
+class UploadExecutor extends DefaultTask {
 }
