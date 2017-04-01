@@ -18,7 +18,7 @@ An easy-use gradle plugin for uploading lib to repository
         }
         dependencies {
             ....
-            classpath 'com.github.nelon1990:RepoUploader:0.0.2'
+            classpath 'com.github.nelon1990:repoUploader:1.0.0'
             ....
         }
     }

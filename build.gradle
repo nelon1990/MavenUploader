@@ -1,19 +1,11 @@
 buildscript {
     repositories {
-        maven { url 'http://192.168.1.12:8088/repository/ppfuns/' }
         mavenCentral()
-    }
-
-    dependencies {
-        classpath('pers.nelon.uploader:repoUploader:1.0.0-SNAPSHOT') {
-            changing = true
-        }
     }
 }
 
 apply from: "init.gradle"
-apply plugin: "repoUploader"
-//apply plugin: UploadPlugin
+apply plugin: UploadPlugin
 
 
 uploaderConfig {
