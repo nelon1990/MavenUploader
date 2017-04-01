@@ -38,16 +38,20 @@ An easy-use gradle plugin for uploading lib to repository
 
 >Set the specified the value of project ext property that the plugin has used
 >
->Config your repository url and pom
+>Config your repository url and pom.Extension property will be added into the pom.xml too
 
     ....
-    ext {
-        _artifact = "RepoUploader"
-        _group = "pers.nelon.uploader"
-        _version = "0.0.1"
-        _repositoryUrl = "xxxx"
-        _userName = "xxx"
-        _password = "xxx"
+    uploaderConfig {
+        artifact = "RepoUploader"
+        group = "pers.nelon.uploader"
+        version = "0.0.1"
+        repositoryUrl = "xxxx"
+        userName = "xxx"
+        password = "xxx"
+        ext {
+            extProp1 = "额外属性1"
+            extProp2 = "额外属性2"
+        }
     }
     ....
     
@@ -62,12 +66,12 @@ An easy-use gradle plugin for uploading lib to repository
     init completed
     :configMaven
     ------------------------------MAVEN POM START------------------------------
-    _artifact :              RepoUploader
-    _group :                 pers.nelon.uploader
-    _version :               0.0.1
-    _repositoryUrl :         xxxxxxxxxxxxxxxx
-    _userName :              xxx
-    _password :              xxx
+    artifact :              RepoUploader
+    group :                 pers.nelon.uploader
+    version :               0.0.1
+    repositoryUrl :         xxxxxxxxxxxxxxxx
+    userName :              xxx
+    password :              xxx
     -------------------------------MAVEN POM END-------------------------------
     :compileJava UP-TO-DATE
     :compileGroovy UP-TO-DATE
